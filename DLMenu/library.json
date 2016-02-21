@@ -1,0 +1,19 @@
+{
+"name": "DLMenu",
+"frameworks": "Arduino",
+"keywords": "settings, menu, configuration",
+"description": "Simple one-level-menu framework for 16x2 LiquidCrystal displays",
+"authors":[
+    {
+        "name": "Nejc Jurkovič",
+        "email": "nejc@damogranlabs.com",
+        "url": "http://www.damogranlabs.com",
+        "maintainer": true
+    }
+],
+"repository":
+{
+    "type": "git",
+    "url": "https://github.com/damogranlabs/dl-menu"
+}
+}

@@ -1,0 +1,29 @@
+#######################################
+# Syntax Coloring Map For DLMenu
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+DLMenu KEYWORD1
+DLMenuItem KEYWORD1
+DLIntMenuItem KEYWORD1
+DLFloatMenuItem KEYWORD1
+DLChoiceMenuItem KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+check	KEYWORD2
+getValue	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+#######################################
