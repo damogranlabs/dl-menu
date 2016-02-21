@@ -7,13 +7,12 @@ DLNumber::DLNumber(int a){
 }
 
 bool DLNumber::load(void){
-  for(int i = 0; i < sizeof(data.b); i++){
+  for(int i = 0; i < SIZE; i++){
     data.b[i] = EEPROM[address + i];
   }
   
-  if(data.l == 0xFFFFFFFF){
+  if(data.l == 0xFFFFFFFF){ // there's nothing in EEPROM
     data.f = 0;
-    save();
     return false; // a default value was used
   }
   else{
@@ -24,7 +23,7 @@ bool DLNumber::load(void){
 void DLNumber::save(void){
   int i;
   
-  for(i = 0; i < sizeof(data.b); i++){
+  for(i = 0; i < SIZE; i++){
     EEPROM[address + i] = data.b[i];
   }
 }
@@ -37,12 +36,12 @@ unsigned long DLNumber::getUintValue(void){
 	return data.l;
 }
 
-void DLNumber::setValue(unsigned long l){
-	data.l = l;
+void DLNumber::setValue(unsigned long val){
+	data.l = val;
 	save();
 }
 
-void DLNumber::setValue(float f){
-  data.f = f;
+void DLNumber::setValue(float val){
+  data.f = val;
   save();
 }

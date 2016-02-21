@@ -1,42 +1,6 @@
 /*
-  LiquidCrystal Library - Hello World
-
- Demonstrates the use a 16x2 LCD display.  The LiquidCrystal
- library works with all LCD displays that are compatible with the
- Hitachi HD44780 driver. There are many of them out there, and you
- can usually tell them by the 16-pin interface.
-
- This sketch prints "Hello World!" to the LCD
- and shows the time.
-
-  The circuit:
- * LCD RS pin to digital pin 12
- * LCD Enable pin to digital pin 11
- * LCD D4 pin to digital pin 5
- * LCD D5 pin to digital pin 4
- * LCD D6 pin to digital pin 3
- * LCD D7 pin to digital pin 2
- * LCD R/W pin to ground
- * LCD VSS pin to ground
- * LCD VCC pin to 5V
- * 10K resistor:
- * ends to +5V and ground
- * wiper to LCD VO pin (pin 3)
-
- Library originally added 18 Apr 2008
- by David A. Mellis
- library modified 5 Jul 2009
- by Limor Fried (http://www.ladyada.net)
- example added 9 Jul 2009
- by Tom Igoe
- modified 22 Nov 2010
- by Tom Igoe
-
- This example code is in the public domain.
-
- http://www.arduino.cc/en/Tutorial/LiquidCrystal
+ * DLMenu menu framework;
  */
-
 // the required hardware: liquid crystal
 #include <LiquidCrystal.h>
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
@@ -64,15 +28,15 @@ DLIntMenuItem *miCount = new DLIntMenuItem(&lcd, // address of display object
 // Float menu item
 DLFloatMenuItem *miWeight = new DLFloatMenuItem(&lcd, // address of display object
   "Sheep weight", // label
-  3, // EEPROM address (will use 4 bytes)
-  3); // number of decimal places (after decimal point)
+  4, // EEPROM address (will use 4 bytes)
+  4); // number of significant digits
 
 // Choice menu item
 // First, define choices; it's a list of strings - THE LAST MEMBER MUST BE NULL!
 const char *sheepColor[] = {"White", "Black", "Green", NULL}; 
 
 DLChoiceMenuItem *miColor = new DLChoiceMenuItem(&lcd, // address of lcd display
-  "Sheel color:", // label
+  "Sheep color:", // label
   8, // EEPROM address (will only use 1 byte)
   sheepColor);
 

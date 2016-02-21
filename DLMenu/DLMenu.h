@@ -105,7 +105,7 @@ class DLIntMenuItem : public DLMenuItem{
     void increase(void);
     void decrease(void);
 
-	unsigned long getValue(void){ return n->getUintValue(); };
+    unsigned long getValue(void){ return n->getUintValue(); };
   private:
     DLNumber *n; // loading, saving, digits...
     int digits;
@@ -129,12 +129,11 @@ class DLChoiceMenuItem : public DLMenuItem{
     void increase(void);
     void decrease(void);
     
-    int getValue(void){ return selected; };
+    byte getValue(void){ return selected; };
   private:
     byte selected; // selected choice
     int len; // the length of the list
     const char **choices;
-    int address;
 
     void add(int n);
 };

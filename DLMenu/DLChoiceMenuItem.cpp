@@ -20,7 +20,7 @@ DLChoiceMenuItem::DLChoiceMenuItem(LiquidCrystal *lcd, char *label,	int address,
 
   // load from EEPROM
   selected = EEPROM[address];
-  if(selected > len - 1) selected = 0; // the default choice
+  //if(selected > len - 1) selected = 0; // the default choice
 }
 
 void DLChoiceMenuItem::show(bool endFirst = false){
@@ -41,7 +41,9 @@ void DLChoiceMenuItem::show(bool endFirst = false){
 }
 
 void DLChoiceMenuItem::hide(void){
-  EEPROM[address] = selected;
+  if(EEPROM[address] != selected) EEPROM[address] = selected;
+  
+  lcd->clear();
 }
 
 void DLChoiceMenuItem::add(int i){

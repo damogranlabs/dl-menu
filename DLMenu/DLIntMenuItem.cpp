@@ -20,7 +20,7 @@ void DLIntMenuItem::explode(void){
 	// if stored number is bigger than number of digits, drop everything
 	m = 1;
 	for(i = 0; i < digits; i++){
-    m *= i;
+    m *= 10;
 	}
 	
 	if(i >= m){
@@ -82,7 +82,9 @@ void DLIntMenuItem::hide(void){
     m *= 10;
   }
 
-  n->setValue(v);
+  if(n->getUintValue() != v) n->setValue(v);
+  
+  lcd->clear();
 }
 
 bool DLIntMenuItem::next(void){ 

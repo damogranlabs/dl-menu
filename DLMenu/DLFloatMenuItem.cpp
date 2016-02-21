@@ -123,6 +123,8 @@ void DLFloatMenuItem::hide(void){
 
   f = f * powf(10, exponent);
 
-  n->setValue(f);
+  if(n->getFloatValue() != f) n->setValue(f);
+  
+  lcd->clear();
 }
 

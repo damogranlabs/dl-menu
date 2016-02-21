@@ -4,6 +4,7 @@
 #include <EEPROM.h>
 #include <Arduino.h>
 
+#define SIZE 4 // size of float, unsigned int, etc.
 
 class DLNumber{
   public:
@@ -19,7 +20,7 @@ class DLNumber{
 
     union{
       float f;
-      byte b[sizeof(float)];
+      byte b[SIZE];
       unsigned long l;
     } data;
   
