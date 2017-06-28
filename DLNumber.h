@@ -3,6 +3,7 @@
 
 #include <EEPROM.h>
 #include <Arduino.h>
+#include "DLMenu.h"
 
 #define SIZE 4 // size of float, unsigned int, etc.
 

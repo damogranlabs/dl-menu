@@ -10,6 +10,7 @@
 #include "DLNumber.h"
 
 #define M_TIMEOUT 15000 // go to default item in the menu after
+#define EEPROM_NULL 0xFFFFFFFF // the value that is stored in EEPROM after reset/re-flash/re-whatever
 
 // Menu classes:
 class DLMenu; // a container for handling MenuItems
@@ -39,7 +40,7 @@ class DLMenu{
 
 class DLMenuItem{
   public:
-    // all MenuItems write to lcd, have a label and EEPROM address
+    // all MenuItems write to lcd, have a label, an EEPROM address and a default value
     DLMenuItem(LiquidCrystal *d, char *l, int a) : lcd(d), label(l), address(a) {};
     
     // items are initialized in the beginning and then only shown;
@@ -68,7 +69,7 @@ class DLMenuItem{
 
 class DLFloatMenuItem : public DLMenuItem{
   public:
-    DLFloatMenuItem(LiquidCrystal *lcd, char *label, int address, int d); // d - digits
+    DLFloatMenuItem(LiquidCrystal *lcd, char *label, int address, int d, float dval); // d - digits
     
     void show(bool endFirst);
     void hide(void);
@@ -95,7 +96,7 @@ class DLFloatMenuItem : public DLMenuItem{
   
 class DLIntMenuItem : public DLMenuItem{
   public:
-    DLIntMenuItem(LiquidCrystal *lcd, char *label, int address, int d); // d - digits
+    DLIntMenuItem(LiquidCrystal *lcd, char *label, int address, int d, int dval); // d - digits
     
     void show(bool endFirst);
     void hide(void);
@@ -121,7 +122,7 @@ class DLIntMenuItem : public DLMenuItem{
 
 class DLChoiceMenuItem : public DLMenuItem{
   public:
-    DLChoiceMenuItem(LiquidCrystal *lcd, char *label, int address, const char **choices);
+    DLChoiceMenuItem(LiquidCrystal *lcd, char *label, int address, const char **choices, int dval);
 
     void show(bool endFirst);
     void hide(void);

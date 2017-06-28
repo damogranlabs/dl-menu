@@ -1,4 +1,4 @@
-#include "DLNumber.h"
+#include "DLMenu.h"
 
 DLNumber::DLNumber(int a){
   address = a;
@@ -11,8 +11,7 @@ bool DLNumber::load(void){
     data.b[i] = EEPROM[address + i];
   }
   
-  if(data.l == 0xFFFFFFFF){ // there's nothing in EEPROM
-    data.f = 0;
+  if(data.l == EEPROM_NULL){ // there's nothing in EEPROM
     return false; // a default value was used
   }
   else{
