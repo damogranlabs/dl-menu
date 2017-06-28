@@ -1,5 +1,7 @@
 # dl-menu
-A simple one-level settings menu framework for Arduino 16x2 LiquidCrystal display
+A simple one-level settings menu framework for Arduino 16x2 LiquidCrystal display.
+
+https://www.youtube.com/watch?v=qS__iG2UIRg
 
 ## Quick description
 If your program contains parameters that change over time
@@ -52,8 +54,7 @@ if(menu.check() == false){ // the menu is not active, lcd can be written to
 }
 ```
 ## Examples and documentation
- - [x] Example is in the 'Examples' folder
- - [ ] A more thorough documentation still needs to be written
+See the attached example sketch; it is verbosely documented so you should get by fine. The code itself is well-documented as well in case you'll need tweaks and hacks.
 
 ## More?
 More different sections/data types can be added (and will be in case we'll need something in the future).
