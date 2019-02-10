@@ -3,7 +3,7 @@
 ///
 /// FloatMenuItem
 ///
-DLFloatMenuItem::DLFloatMenuItem(LiquidCrystal *lcd, char *label, int address, int d, float dval) : DLMenuItem(lcd, label, address){
+DLFloatMenuItem::DLFloatMenuItem(LiquidCrystal *lcd, const char *label, int address, int d, float dval) : DLMenuItem(lcd, label, address){
   // prepare stuff
   n = new DLNumber(address);
   if(n->getUintValue() == EEPROM_NULL) n->setValue((float)dval);
@@ -74,8 +74,7 @@ void DLFloatMenuItem::show(bool endFirst){
   
   // print the label
   lcd->clear();
-  lcd->setCursor(0, 0);
-  lcd->print(label);
+  progmem_to_lcd(lcd, 0, label);
 
   // set cursor position
   if(endFirst) s = sections;

@@ -1,0 +1,6 @@
+{
+    "board": "arduino:avr:uno",
+    "sketch": "dlmenu-example.ino",
+    "port": "/dev/ttyACM0",
+    "output": "/tmp"
+}

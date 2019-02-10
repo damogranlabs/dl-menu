@@ -7,24 +7,26 @@
 
 #define SIZE 4 // size of float, unsigned int, etc.
 
-class DLNumber{
+class DLNumber
+{
   public:
     DLNumber(int address);
 
     float getFloatValue(void);
     unsigned long getUintValue(void);
-    
+
     void setValue(float f);
     void setValue(unsigned long l);
+
   private:
     int address;
 
-    union{
-      float f;
-      byte b[SIZE];
-      unsigned long l;
+    union {
+        float f;
+        byte b[SIZE];
+        unsigned long l;
     } data;
-  
+
     void save(void);
     bool load(void);
 };

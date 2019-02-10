@@ -1,5 +1,5 @@
 {
-"name": "DLMenu",
+"name": "dl-menu",
 "frameworks": "Arduino",
 "keywords": "settings, menu, configuration",
 "description": "Simple one-level-menu framework for 16x2 LiquidCrystal displays",

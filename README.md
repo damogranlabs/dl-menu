@@ -60,6 +60,6 @@ See the attached example sketch; it is verbosely documented so you should get by
 More different sections/data types can be added (and will be in case we'll need something in the future).
 The whole little framework is written using object-oriented paradigm. It's a little heavy on resources, especially
 Flash memory, but from our experience the 32kB of Atmega328 is not very easy to fill completely.
-Section labels and choice texts could be saved into flash to avoid using up RAM, see [PROGMEM](https://www.arduino.cc/en/Reference/PROGMEM).
+Section labels and choice texts can be saved into flash to avoid using up RAM, see [PROGMEM](https://www.arduino.cc/en/Reference/PROGMEM) and enclosed example.
  
 This code uses MIT license so you're free to do whatever with it and actually very welcome to do so. Feedback is also appreciated.
