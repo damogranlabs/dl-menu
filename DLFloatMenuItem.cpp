@@ -3,13 +3,13 @@
 ///
 /// FloatMenuItem
 ///
-DLFloatMenuItem::DLFloatMenuItem(LiquidCrystal *lcd, const char *label, int address, int d, float dval) : DLMenuItem(lcd, label, address){
+DLFloatMenuItem::DLFloatMenuItem(LiquidCrystal *lcd, const char *label, int address, int d) : DLMenuItem(lcd, label, address){
   // prepare stuff
   n = new DLNumber(address);
-  if(n->getUintValue() == EEPROM_NULL) n->setValue((float)dval);
+  n->getUintValue();
   
   digits = d;
-  sections = digits; // all digits plus exponent
+  sections = digits+1; // all digits plus exponent
   numerals = new char[digits+1]; // to store 'exploded' digits from a float
   explode();
 }
@@ -33,9 +33,9 @@ void DLFloatMenuItem::explode(void){
 }
 
 void DLFloatMenuItem::printNumber(void){
-  // first character: plus or minus sign
   lcd->setCursor(0, 1);
-  
+
+  // first character: plus or minus sign
   if(numerals[0] >= 0) lcd->print("+");
   else lcd->print("-");
   
@@ -62,7 +62,7 @@ void DLFloatMenuItem::placeCursor(void){
   //  0 1234  5  < section
   // +1.3568e+2
   if(s == 0) pos = 1;
-  else if(s == sections) pos = s + 4;
+  else if(s == sections-1) pos = s + 4;
   else pos = s + 2;
 
   lcd->setCursor(pos, 1);
@@ -71,38 +71,22 @@ void DLFloatMenuItem::placeCursor(void){
 
 void DLFloatMenuItem::show(bool endFirst){
   // set the currently displayed section
-  
   // print the label
   lcd->clear();
   progmem_to_lcd(lcd, 0, label);
 
+  // print the number
+  printNumber();
+
   // set cursor position
   if(endFirst) s = sections;
   else s = 0;
-
-  printNumber();
   placeCursor();
 }
 
-bool DLFloatMenuItem::next(void){ 
-  s += 1;
-  if(s > sections) return false; 
-  
-  placeCursor();
-  return true;
-};
-  
-bool DLFloatMenuItem::previous(void){
-  s -= 1;
-  if(s < 0) return false;
-  
-  placeCursor();
-  return true;
-};
-
 void DLFloatMenuItem::add(int i){
   if(s == 0) numerals[s] = constrain(numerals[s] + i, -9, 9);
-  else if(s > 0 && s < sections) numerals[s] = constrain(numerals[s] + i, 0, 9);
+  else if(s > 0 && s < sections-1) numerals[s] = constrain(numerals[s] + i, 0, 9);
   else exponent = constrain(exponent + i, -9, 9);
 
   printNumber();
@@ -128,3 +112,7 @@ void DLFloatMenuItem::hide(void){
   lcd->clear();
 }
 
+void DLFloatMenuItem::setValue(float value){
+  n->setValue(value);
+  explode();
+}

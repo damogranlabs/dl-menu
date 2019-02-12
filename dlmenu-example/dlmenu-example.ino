@@ -8,6 +8,11 @@
 // https://github.com/damogranlabs/dl-menu
 #include <DLMenu.h>
 
+
+// clears the eeprom for testing and demonstration purposes;
+// remove this for real-life uses
+#include <EEPROM.h>
+
 /*
  * HARDWARE and pins
  */
@@ -40,7 +45,6 @@ Button bDown(PB_DOWN, PULLDOWN);
 // menu items:
 // integer value
 #define DLM_ADDR_TESTINT 0                           // the address of the value
-#define DLM_DEFAULT_TESTINT 42                       // the default value on initialization and error
 #define DLM_INT_DIGITS 3                             // number of digits
 const char miNumberLabel[] PROGMEM = {"The number"}; // the title saved in PROGMEM
 
@@ -48,21 +52,20 @@ DLIntMenuItem *miTestInt = new DLIntMenuItem( // the object
     &lcd,                                     // your LiquidCrystal object
     miNumberLabel,                            // the label of this setting (first line)
     DLM_ADDR_TESTINT,                         // EEPROM address of the setting
-    DLM_INT_DIGITS,                           // menu-item-specific setting (number of digits in this case)
-    DLM_DEFAULT_TESTINT);                     // item-specific default value
+    DLM_INT_DIGITS                            // menu-item-specific setting (number of digits in this case)
+);
 
 // floating point value
 #define DLM_FLOAT_DIGITS 5                             // number of digits
 #define DLM_ADDR_TESTFLOAT 4                           // EEPROM address
-#define DLM_DEFAULT_TESTFLOAT 1.01325e+5               // default value
 const char miFloatLabel[] PROGMEM = {"Pressure [Pa]"}; // the label saved in PROGMEM
 
 DLFloatMenuItem *miTestFloat = new DLFloatMenuItem(
     &lcd,
     miFloatLabel,
     DLM_ADDR_TESTFLOAT,
-    DLM_FLOAT_DIGITS,
-    DLM_DEFAULT_TESTFLOAT);
+    DLM_FLOAT_DIGITS
+);
 
 // choice menu item:
 #define DLM_ADDR_TESTCHOICE 8    // eeprom address of the index
@@ -72,18 +75,34 @@ const char miChoiceLabel[] PROGMEM = {"Sex"};
 const char testChoice_0[] PROGMEM = "Male";
 const char testChoice_1[] PROGMEM = "Female";
 const char testChoice_2[] PROGMEM = "Yes, please";
-
 const char *const testChoices[] PROGMEM = {testChoice_0, testChoice_1, testChoice_2};
 
 DLChoiceMenuItem *miTestChoice = new DLChoiceMenuItem(
     &lcd,
     miChoiceLabel,
     DLM_ADDR_TESTCHOICE,
-    testChoices, sizeof(testChoices) / sizeof(char *), // number of choices
-    DLM_DEFAULT_TESTCHOICE);
+    testChoices, sizeof(testChoices) / sizeof(char *) // number of choices
+);
 
+// text menu item:
+#define DLM_ADDR_TESTTEXT 9 // eeprom address of the text item
+#define DLM_TEXT_LENGTH 8 // number of characters
+const char miTextLabel[] PROGMEM  = {"Your name"};
+// list of allowed characters: the user chooses between those;
+// the default string is filled with the first character of this list
+const char miTextAllowedChars[] PROGMEM = {"_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789.,:;+-"};
+
+DLTextMenuItem *miTestText = new DLTextMenuItem(
+    &lcd,
+    miTextLabel,
+    DLM_ADDR_TESTTEXT,
+    miTextAllowedChars,
+    DLM_TEXT_LENGTH
+);
+
+// initialize menu with all the items
 DLMenuItem *menuItems[] = {
-    miTestInt, miTestFloat, miTestChoice, NULL // ACHTUNG, the last entry must be NULL
+    miTestInt, miTestFloat, miTestChoice, miTestText, NULL // ACHTUNG, the last entry must be NULL
 };
 
 // create the menu
@@ -92,25 +111,35 @@ DLMenu menu(&lcd, &bLeft, &bRight, &bUp, &bDown, menuItems);
 /*
  * THE STUFF
  */
-void setup()
-{
+void setup(){
     Serial.begin(9600);
     lcd.begin(16, 2);
+
+    /* // setting default values:
+    // clear the eeprom
+    for (int i = 0 ; i < EEPROM.length(); i++) EEPROM.write(i, 0);
+
+    // use the setValue() methods of each menu item to initialize/reset/set defaults
+    miTestInt->setValue(231);
+    miTestFloat->setValue(1.233);
+    miTestChoice->setValue(2);
+    miTestText->setValue((char *)"Slartibartfast"); */ 
 }
 
-void loop()
-{
-    if (menu.check())
-    {
+void loop(){
+    if (menu.check()){
         // showing menu, do nothing
     }
-    else
-    {
+    else{
         // the menu is not activated; do whatever your gizmo does in 'normal' mode
         lcd.setCursor(0, 0);
         lcd.print("On for ");
         lcd.print(millis() / 1000);
-        lcd.print(" seconds");
+        lcd.print(" s");
+
+        lcd.setCursor(0, 1);
+        lcd.print("Text: ");
+        lcd.print(miTestText->getValue());
 
         // be careful when using delays or blocking functions that take long to complete;
         // the menu.check() won't be able to check for button presses in the meanwhile;

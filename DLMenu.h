@@ -11,7 +11,6 @@
 #include "DLTools.h"
 
 #define M_TIMEOUT 15000        // go to default item in the menu after
-#define EEPROM_NULL 0xFFFFFFFF // the value that is stored in EEPROM after reset/re-flash/re-whatever
 
 // Menu classes:
 class DLMenu;     // a container for handling MenuItems
@@ -53,20 +52,21 @@ class DLMenuItem
 
     // left/right button actions: returns false if it is out of scope of this item
     // (the next menu item should be displayed instead)
-    virtual bool next(void) { return false; };
-    virtual bool previous(void) { return false; };
+    virtual bool next(void);// { return false; };
+    virtual bool previous(void);// { return false; };
+    virtual void placeCursor(void); // is overridden in some menu items
 
     virtual void increase(void) { return; }; // up and down button actions
     virtual void decrease(void) { return; };
 
-    // a function that can't be virtual because each type of MenuItem has a
-    // different return type:
+    // functions that can't be virtual because each type of MenuItem has a
+    // different type:
     // <whatever> getValue(void){ return <whatever> };
+    // void setValue(<whatever>){};
   protected:
     LiquidCrystal *lcd;
     const char *label;
-    int address;
-
+    int address; // EEPROM address
     int s, sections; // number of modifiable sections in a menu item;
                      // depends on the type of the item; s is the current one
 };
@@ -74,17 +74,17 @@ class DLMenuItem
 class DLIntMenuItem : public DLMenuItem
 {
   public:
-    DLIntMenuItem(LiquidCrystal *lcd, const char *label, int address, int d, int dval); // d - digits
+    DLIntMenuItem(LiquidCrystal *lcd, const char *label, int address, int digits);
 
     void show(bool endFirst);
     void hide(void);
 
-    bool next(void);
-    bool previous(void);
     void increase(void);
     void decrease(void);
 
+    void setValue(unsigned long value);
     unsigned long getValue(void) { return n->getUintValue(); };
+    
 
   private:
     DLNumber *n; // loading, saving, digits...
@@ -96,22 +96,21 @@ class DLIntMenuItem : public DLMenuItem
     void explode(void); // gets a float from n and puts it in numerals*exponent
 
     void printNumber(void);
-    void placeCursor(void); // takes the current section and places the cursor
 };
 
 class DLFloatMenuItem : public DLMenuItem
 {
   public:
-    DLFloatMenuItem(LiquidCrystal *lcd, const char *label, int address, int d, float dval); // d - digits
+    DLFloatMenuItem(LiquidCrystal *lcd, const char *label, int address, int digits);
 
     void show(bool endFirst);
     void hide(void);
 
-    bool next(void);
-    bool previous(void);
     void increase(void);
     void decrease(void);
 
+    // warning! this will immediately save to EEPROM
+    void setValue(float value);
     float getValue(void) { return n->getFloatValue(); };
 
   private:
@@ -131,7 +130,7 @@ class DLFloatMenuItem : public DLMenuItem
 class DLChoiceMenuItem : public DLMenuItem
 {
   public:
-    DLChoiceMenuItem(LiquidCrystal *lcd, const char *label, int address, const char *const *choices, int nChoices, int dval);
+    DLChoiceMenuItem(LiquidCrystal *lcd, const char *label, int address, const char *const *choices, int nChoices);
 
     void show(bool endFirst);
     void hide(void);
@@ -139,21 +138,21 @@ class DLChoiceMenuItem : public DLMenuItem
     void increase(void);
     void decrease(void);
 
+    void setValue(byte value);
     byte getValue(void) { return selected; };
 
   private:
     byte selected; // selected choice
     int len;       // the length of the list
-    const char *const *choices;
+    const char *const *choices; // choices table, saved in PROGMEM
 
     void add(int n);
+    void save(void);
 };
 
-/*class DLTextMenuItem : public DLMenuItem {
+class DLTextMenuItem : public DLMenuItem {
   public:
-    DLTextMenuItem(LiquidCrystal *lcd, char *label, int address, 
-      const char **characters,
-      int length);
+    DLTextMenuItem(LiquidCrystal *lcd, const char *label, int address, const char *allowedCharacters, int length);
 
     void show(bool endFirst);
     void hide(void);
@@ -161,10 +160,20 @@ class DLChoiceMenuItem : public DLMenuItem
     void increase(void);
     void decrease(void);
 
-    char **getValue(void);
+
+    void setValue(char *value);
+    char *getValue(void){ return text; }; // returns a pointer to text
 
   private:
-    
-};*/
+    int len; // the length of the list
+    const char *allowedChars; // array of allowed characters, saved in PROGMEM
+    int nAllowedChars; // number of characters in allowedChars;
+    char *text;
+
+    int findIndex(char c); // finds the index of c in allowedChars
+    void normalize(void); // replace non-allowed characters
+    void add(int n);
+    void save(void);
+};
 
 #endif
