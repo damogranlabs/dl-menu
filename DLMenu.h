@@ -132,6 +132,10 @@ class DLChoiceMenuItem : public DLMenuItem
   public:
     DLChoiceMenuItem(LiquidCrystal *lcd, const char *label, int address, const char *const *choices, int nChoices);
 
+
+    bool next(void){ return false; };
+    bool previous(void){ return false; }
+
     void show(bool endFirst);
     void hide(void);
 

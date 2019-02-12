@@ -107,7 +107,10 @@ void DLMenuItem::placeCursor(void){
 
 bool DLMenuItem::next(void){
     s += 1;
-    if (s >= sections) return false;
+    if (s >= sections){
+        s = sections;
+        return false;
+    }
 
     placeCursor();
     return true;
@@ -115,7 +118,10 @@ bool DLMenuItem::next(void){
 
 bool DLMenuItem::previous(void){
     s -= 1;
-    if (s < 0)  return false;
+    if (s < 0){
+        s = 0;
+        return false;
+    }
 
     placeCursor();
     return true;

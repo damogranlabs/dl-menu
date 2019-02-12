@@ -79,8 +79,9 @@ void DLFloatMenuItem::show(bool endFirst){
   printNumber();
 
   // set cursor position
-  if(endFirst) s = sections;
+  if(endFirst) s = sections-1;
   else s = 0;
+
   placeCursor();
 }
 
