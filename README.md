@@ -1,7 +1,7 @@
 # dl-menu
 A simple one-level settings menu framework for Arduino 16x2 LiquidCrystal display.
 
-https://damogranlabs.com/2018/10/arduino-settings-menu/
+https://damogranlabs.com/2018/10/arduino-settings-menu/  
 https://www.youtube.com/watch?v=qS__iG2UIRg
 
 ## Quick description

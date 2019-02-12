@@ -112,7 +112,6 @@ DLMenu menu(&lcd, &bLeft, &bRight, &bUp, &bDown, menuItems);
  * THE STUFF
  */
 void setup(){
-    Serial.begin(9600);
     lcd.begin(16, 2);
 
     /* // setting default values:
