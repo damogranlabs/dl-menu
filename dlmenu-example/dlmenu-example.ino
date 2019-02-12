@@ -86,7 +86,7 @@ DLChoiceMenuItem *miTestChoice = new DLChoiceMenuItem(
 
 // text menu item:
 #define DLM_ADDR_TESTTEXT 9 // eeprom address of the text item
-#define DLM_TEXT_LENGTH 8 // number of characters
+#define DLM_TEXT_LENGTH 8 // number of characters (will occupy the same number of bytes in EEPROM)
 const char miTextLabel[] PROGMEM  = {"Your name"};
 // list of allowed characters: the user chooses between those;
 // the default string is filled with the first character of this list

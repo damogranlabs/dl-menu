@@ -32,10 +32,11 @@ Button bDown(A3, PULLDOWN);
 ### 2. Initialize your menu sections (one section, one variable)
 See the included example for
 ```
-DLIntMenuItem *miCount = new DLIntMenuItem(&lcd, // address of display object
-  "Sheep count:", // label (max. 15 characters)
-  0, // EEPROM address (will use 4 bytes)
-  3); // number of digits that will be displayed
+DLIntMenuItem *miCount = new DLIntMenuItem(
+    &lcd, // address of display object
+    "Sheep count:", // label (max. 15 characters) (see the example for PROGMEM-saved texts)
+    0, // EEPROM address (will use 4 bytes)
+    3); // number of digits that will be displayed
 ```
 ### 4. Initialize the menu
 ```
@@ -61,6 +62,6 @@ See the attached example sketch; it is verbosely documented so you should get by
 More different sections/data types can be added (and will be in case we'll need something in the future).
 The whole little framework is written using object-oriented paradigm. It's a little heavy on resources, especially
 Flash memory, but from our experience the 32kB of Atmega328 is not very easy to fill completely.
-Section labels and choice texts can be saved into flash to avoid using up RAM, see [PROGMEM](https://www.arduino.cc/en/Reference/PROGMEM) and enclosed example.
+All labels and choice texts are saved to PROGMEM to avoid eating up too much RAM.
  
 This code uses MIT license so you're free to do whatever with it and actually very welcome to do so. Feedback is also appreciated.
